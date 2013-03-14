@@ -94,9 +94,9 @@ class Board:
         for y, row in enumerate(self.piece):
             for x, block in enumerate(row):
                 if block:
-                    collision = self._block_collide_with_board(x=x+dx, y=y+dy)
-                    if collision:
-                        return collision
+                    collide = self._block_collide_with_board(x=x+dx, y=y+dy)
+                    if collide:
+                        return collide
         return Board.COLLIDE_ERROR['no_error']
 
     def _can_move_piece(self, dx, dy):
@@ -111,17 +111,17 @@ class Board:
 
     def _try_rotate_piece(self, clockwise=True):
         self.piece.rotate(clockwise)
-        collision = self.collide_with_board(dx=self.piece_x, dy=self.piece_y)
-        if not collision:
+        collide = self.collide_with_board(dx=self.piece_x, dy=self.piece_y)
+        if not collide:
             pass
-        elif collision == Board.COLLIDE_ERROR['left_wall']:
+        elif collide == Board.COLLIDE_ERROR['left_wall']:
             if self._can_move_piece(dx=1, dy=0):
                 self.move_piece(dx=1, dy=0)
             elif self._can_move_piece(dx=2, dy=0):
                 self.move_piece(dx=2, dy=0)
             else:
                 self.piece.rotate(not clockwise)
-        elif collision == Board.COLLIDE_ERROR['right_wall']:
+        elif collide == Board.COLLIDE_ERROR['right_wall']:
             if self._can_move_piece(dx=-1, dy=0):
                 self.move_piece(dx=-1, dy=0)
             elif self._can_move_piece(dx=-2, dy=0):
